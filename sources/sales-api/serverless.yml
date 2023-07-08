@@ -1,0 +1,29 @@
+service: sales-api
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-ignore
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-northeast-2
+  profile: admin
+  stage: dev
+  iam:
+    role: ${env:ROLE_SNSPUBLISH_ARN}
+  
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: '*'
+    environment:
+      HOSTNAME: ${env:HOSTNAME}
+      USERNAME: ${env:USERNAME}
+      PASSWORD: ${env:PASSWORD}
+      DATABASE: ${env:DATABASE}
+      TOPIC_ARN: ${env:TOPIC_ARN}

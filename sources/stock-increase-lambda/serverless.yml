@@ -1,0 +1,26 @@
+service: stock-increase-lambda
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-ignore
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ap-northeast-2
+  profile: admin
+  stage: dev
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: '*'
+    environment:
+      HOSTNAME: ${env:HOSTNAME}
+      USERNAME: ${env:USERNAME}
+      PASSWORD: ${env:PASSWORD}
+      DATABASE: ${env:DATABASE}

@@ -1,0 +1,24 @@
+service: stock-lambda
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-ignore
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-northeast-2
+  profile: admin
+  stage: dev
+  iam:
+    role: ${env:SQS_ROLE_ARN}
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - sqs:
+          arn: ${env:SQS_ARN}
